@@ -111,7 +111,7 @@ func Test_Decrease_Quality_Twice_As_Fast_When_SellIn_Passed(t *testing.T) {
 func Test_Decrease_Quality_Twice_As_Fast_For_Conjured_Item(t *testing.T) {
 	// given
 	var items = []*gildedrose.Item{
-		{Name: "Conjured", SellIn: 10, Quality: 12},
+		{Name: "Conjured Mana Cake", SellIn: 10, Quality: 12},
 	}
 	// when
 	gildedrose.UpdateQuality(items)
@@ -122,7 +122,7 @@ func Test_Decrease_Quality_Twice_As_Fast_For_Conjured_Item(t *testing.T) {
 func Test_Decrease_Quality_Twice_As_Fast_For_Conjured_Item_After_SellIn_Passed(t *testing.T) {
 	// given
 	var items = []*gildedrose.Item{
-		{Name: "Conjured", SellIn: -2, Quality: 12},
+		{Name: "Conjured Mana Cake", SellIn: -2, Quality: 12},
 	}
 	// when
 	gildedrose.UpdateQuality(items)

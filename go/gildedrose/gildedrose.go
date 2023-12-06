@@ -22,15 +22,15 @@ var MAX_QUALITY = 50
 var SULFURAS = "Sulfuras, Hand of Ragnaros"
 var AGED_BRIE = "Aged Brie"
 var BACKSTAGE_PASS = "Backstage passes to a TAFKAL80ETC concert"
-var CONJURED = "Conjured"
-var exceptionalItems = []string{BACKSTAGE_PASS, AGED_BRIE, SULFURAS}
+var CONJURED = "Conjured Mana Cake"
+var EXCEPTIONAL_ITEMS = []string{BACKSTAGE_PASS, AGED_BRIE, SULFURAS}
 
 func UpdateQuality(items []*Item) {
 	for _, item := range items {
 		if item.Name != SULFURAS {
 			item.SellIn = item.SellIn - 1
 		}
-		if !containsString(exceptionalItems, item.Name) {
+		if !containsString(EXCEPTIONAL_ITEMS, item.Name) {
 			if item.Name == CONJURED {
 				item.decreaseQualityBy(2)
 			} else {
@@ -38,7 +38,7 @@ func UpdateQuality(items []*Item) {
 			}
 		} else {
 			if item.Name == BACKSTAGE_PASS {
-				handleQuallityForBackStagePass(item)
+				handleQualityForBackStagePass(item)
 			} else {
 				if item.Name != SULFURAS {
 					item.increseQualityBy(1)
@@ -46,7 +46,7 @@ func UpdateQuality(items []*Item) {
 			}
 		}
 		if item.SellIn < 0 {
-			if !containsString(exceptionalItems, item.Name) {
+			if !containsString(EXCEPTIONAL_ITEMS, item.Name) {
 				if item.Name == CONJURED {
 					item.decreaseQualityBy(2)
 				} else {
@@ -66,7 +66,17 @@ func containsString(slice []string, str string) bool {
 	return false
 }
 
-func handleQuallityForBackStagePass(item *Item) {
+func decreaseQualityForItem(item *Item) {
+	if !containsString(EXCEPTIONAL_ITEMS, item.Name) {
+		if item.Name == CONJURED {
+			item.decreaseQualityBy(2)
+		} else {
+			item.decreaseQualityBy(1)
+		}
+	}
+}
+
+func handleQualityForBackStagePass(item *Item) {
 	switch {
 	case item.SellIn < 0:
 		item.Quality = 0
