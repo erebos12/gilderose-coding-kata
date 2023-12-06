@@ -170,31 +170,50 @@ func Test_Quality_Can_Never_Be_Less_Then_0(t *testing.T) {
 func Test_Fixture(t *testing.T) {
 
 	var items = []*gildedrose.Item{
-		{"Backstage passes to a TAFKAL80ETC concert", 15, 20},
-		{"Backstage passes to a TAFKAL80ETC concert", 10, 49},
-		{"Backstage passes to a TAFKAL80ETC concert", 5, 49},
+		{Name: "+5 Dexterity Vest", SellIn: 10, Quality: 20},
+		{Name: "Aged Brie", SellIn: 2, Quality: 0},
+		{Name: "Elixir of the Mongoose", SellIn: 5, Quality: 7},
+		{Name: "Sulfuras, Hand of Ragnaros", SellIn: 0, Quality: 80},
+		{Name: "Sulfuras, Hand of Ragnaros", SellIn: -1, Quality: 80},
+		{Name: "Backstage passes to a TAFKAL80ETC concert", SellIn: 15, Quality: 20},
+		{Name: "Backstage passes to a TAFKAL80ETC concert", SellIn: 10, Quality: 49},
+		{Name: "Backstage passes to a TAFKAL80ETC concert", SellIn: 5, Quality: 49},
+		{Name: "Conjured Mana Cake", SellIn: 3, Quality: 6}, // <-- :O
 	}
 	days := 4
 	for day := 0; day < days; day++ {
-		if day == 0 {
-			utils.CheckTtem(t, items[0], 20, 15)
-			utils.CheckTtem(t, items[1], 49, 10)
-			utils.CheckTtem(t, items[2], 49, 5)
-		}
 		if day == 1 {
-			utils.CheckTtem(t, items[0], 21, 14)
-			utils.CheckTtem(t, items[1], 51, 9)
-			utils.CheckTtem(t, items[2], 52, 4)
+			utils.CheckTtem(t, items[0], 19, 9)
+			utils.CheckTtem(t, items[1], 1, 1)
+			utils.CheckTtem(t, items[2], 6, 4)
+			utils.CheckTtem(t, items[3], 80, 0)
+			utils.CheckTtem(t, items[4], 80, -1)
+			utils.CheckTtem(t, items[5], 21, 14)
+			utils.CheckTtem(t, items[6], 51, 9)
+			utils.CheckTtem(t, items[7], 52, 4)
+			utils.CheckTtem(t, items[8], 4, 2)
 		}
 		if day == 2 {
-			utils.CheckTtem(t, items[0], 22, 13)
-			utils.CheckTtem(t, items[1], 53, 8)
-			utils.CheckTtem(t, items[2], 55, 3)
+			utils.CheckTtem(t, items[0], 18, 8)
+			utils.CheckTtem(t, items[1], 2, 0)
+			utils.CheckTtem(t, items[2], 5, 3)
+			utils.CheckTtem(t, items[3], 80, 0)
+			utils.CheckTtem(t, items[4], 80, -1)
+			utils.CheckTtem(t, items[5], 22, 13)
+			utils.CheckTtem(t, items[6], 53, 8)
+			utils.CheckTtem(t, items[7], 55, 3)
+			utils.CheckTtem(t, items[8], 2, 1)
 		}
 		if day == 3 {
-			utils.CheckTtem(t, items[0], 23, 12)
-			utils.CheckTtem(t, items[1], 55, 7)
-			utils.CheckTtem(t, items[2], 58, 2)
+			utils.CheckTtem(t, items[0], 17, 7)
+			utils.CheckTtem(t, items[1], 3, -1)
+			utils.CheckTtem(t, items[2], 4, 2)
+			utils.CheckTtem(t, items[3], 80, 0)
+			utils.CheckTtem(t, items[4], 80, -1)
+			utils.CheckTtem(t, items[5], 23, 12)
+			utils.CheckTtem(t, items[6], 55, 7)
+			utils.CheckTtem(t, items[7], 58, 2)
+			utils.CheckTtem(t, items[8], 0, 0)
 		}
 		gildedrose.UpdateQuality(items)
 	}
