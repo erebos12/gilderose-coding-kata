@@ -84,6 +84,7 @@ func handleQualityForBackStagePass(item *Item) {
 		item.increseQualityBy(3)
 	case item.SellIn <= 10:
 		item.increseQualityBy(2)
-
+	default:
+		item.increseQualityBy(1)
 	}
 }

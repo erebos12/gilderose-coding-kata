@@ -64,6 +64,17 @@ func Test_Quality_Can_Never_Be_Negative_for_some_item(t *testing.T) {
 	utils.CheckTtem(t, items[0], 0, 9)
 }
 
+func Test_Backstage_With_Normal_SellIn(t *testing.T) {
+	// given
+	var items = []*gildedrose.Item{
+		{Name: "Backstage passes to a TAFKAL80ETC concert", SellIn: 15, Quality: 20},
+	}
+	// when
+	gildedrose.UpdateQuality(items)
+	// then
+	utils.CheckTtem(t, items[0], 21, 14)
+}
+
 func Test_Backstage_With_SellIn_Smaller_Equal_Than_10(t *testing.T) {
 	// given
 	var items = []*gildedrose.Item{
