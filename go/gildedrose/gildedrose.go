@@ -66,16 +66,6 @@ func containsString(slice []string, str string) bool {
 	return false
 }
 
-func decreaseQualityForItem(item *Item) {
-	if !containsString(EXCEPTIONAL_ITEMS, item.Name) {
-		if item.Name == CONJURED {
-			item.decreaseQualityBy(2)
-		} else {
-			item.decreaseQualityBy(1)
-		}
-	}
-}
-
 func handleQualityForBackStagePass(item *Item) {
 	switch {
 	case item.SellIn < 0:
