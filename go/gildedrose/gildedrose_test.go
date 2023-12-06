@@ -1,7 +1,6 @@
 package gildedrose_test
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/emilybache/gildedrose-refactoring-kata/gildedrose"
@@ -177,6 +176,11 @@ func Test_Fixture(t *testing.T) {
 	}
 	days := 4
 	for day := 0; day < days; day++ {
+		if day == 0 {
+			utils.CheckTtem(t, items[0], 20, 15)
+			utils.CheckTtem(t, items[1], 49, 10)
+			utils.CheckTtem(t, items[2], 49, 5)
+		}
 		if day == 1 {
 			utils.CheckTtem(t, items[0], 21, 14)
 			utils.CheckTtem(t, items[1], 51, 9)
@@ -192,8 +196,6 @@ func Test_Fixture(t *testing.T) {
 			utils.CheckTtem(t, items[1], 55, 7)
 			utils.CheckTtem(t, items[2], 58, 2)
 		}
-		fmt.Println("")
 		gildedrose.UpdateQuality(items)
-
 	}
 }
