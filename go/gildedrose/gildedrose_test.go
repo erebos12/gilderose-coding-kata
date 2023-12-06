@@ -175,7 +175,7 @@ func Test_Fixture(t *testing.T) {
 		{"Backstage passes to a TAFKAL80ETC concert", 10, 49},
 		{"Backstage passes to a TAFKAL80ETC concert", 5, 49},
 	}
-	days := 3
+	days := 4
 	for day := 0; day < days; day++ {
 		fmt.Printf("-------- day %d --------\n", day)
 		fmt.Println("Name, SellIn, Quality")
