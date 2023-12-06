@@ -5,54 +5,75 @@ type Item struct {
 	SellIn, Quality int
 }
 
-func UpdateQuality(items []*Item) {
-	for i := 0; i < len(items); i++ {
+func (item *Item) decreaseQualityBy(decreaseValue int) {
+	if item.Quality > 0 {
+		item.Quality = item.Quality - decreaseValue
+	}
+}
 
-		if items[i].Name != "Aged Brie" && items[i].Name != "Backstage passes to a TAFKAL80ETC concert" {
-			if items[i].Quality > 0 {
-				if items[i].Name != "Sulfuras, Hand of Ragnaros" {
-					items[i].Quality = items[i].Quality - 1
-				}
+func (item *Item) increseQualityBy(increaseValue int) {
+	if item.Quality < MAX_QUALITY {
+		item.Quality = item.Quality + increaseValue
+	}
+}
+
+var MAX_QUALITY = 50
+
+var SULFURAS = "Sulfuras, Hand of Ragnaros"
+var AGED_BRIE = "Aged Brie"
+var BACKSTAGE_PASS = "Backstage passes to a TAFKAL80ETC concert"
+var CONJURED = "Conjured"
+var exceptionalItems = []string{BACKSTAGE_PASS, AGED_BRIE, SULFURAS}
+
+func UpdateQuality(items []*Item) {
+	for _, item := range items {
+		if item.Name != SULFURAS {
+			item.SellIn = item.SellIn - 1
+		}
+		if !containsString(exceptionalItems, item.Name) {
+			if item.Name == CONJURED {
+				item.decreaseQualityBy(2)
+			} else {
+				item.decreaseQualityBy(1)
 			}
 		} else {
-			if items[i].Quality < 50 {
-				items[i].Quality = items[i].Quality + 1
-				if items[i].Name == "Backstage passes to a TAFKAL80ETC concert" {
-					if items[i].SellIn < 11 {
-						if items[i].Quality < 50 {
-							items[i].Quality = items[i].Quality + 1
-						}
-					}
-					if items[i].SellIn < 6 {
-						if items[i].Quality < 50 {
-							items[i].Quality = items[i].Quality + 1
-						}
-					}
+			if item.Name == BACKSTAGE_PASS {
+				handleQuallityForBackStagePass(item)
+			} else {
+				if item.Name != SULFURAS {
+					item.increseQualityBy(1)
 				}
 			}
 		}
-
-		if items[i].Name != "Sulfuras, Hand of Ragnaros" {
-			items[i].SellIn = items[i].SellIn - 1
-		}
-
-		if items[i].SellIn < 0 {
-			if items[i].Name != "Aged Brie" {
-				if items[i].Name != "Backstage passes to a TAFKAL80ETC concert" {
-					if items[i].Quality > 0 {
-						if items[i].Name != "Sulfuras, Hand of Ragnaros" {
-							items[i].Quality = items[i].Quality - 1
-						}
-					}
+		if item.SellIn < 0 {
+			if !containsString(exceptionalItems, item.Name) {
+				if item.Name == CONJURED {
+					item.decreaseQualityBy(2)
 				} else {
-					items[i].Quality = items[i].Quality - items[i].Quality
-				}
-			} else {
-				if items[i].Quality < 50 {
-					items[i].Quality = items[i].Quality + 1
+					item.decreaseQualityBy(1)
 				}
 			}
 		}
 	}
+}
 
+func containsString(slice []string, str string) bool {
+	for _, item := range slice {
+		if item == str {
+			return true
+		}
+	}
+	return false
+}
+
+func handleQuallityForBackStagePass(item *Item) {
+	switch {
+	case item.SellIn < 0:
+		item.Quality = 0
+	case item.SellIn <= 5:
+		item.increseQualityBy(3)
+	case item.SellIn <= 10:
+		item.increseQualityBy(2)
+
+	}
 }
