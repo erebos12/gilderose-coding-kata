@@ -189,8 +189,8 @@ func Test_Fixture(t *testing.T) {
 			utils.CheckTtem(t, items[3], 80, 0)
 			utils.CheckTtem(t, items[4], 80, -1)
 			utils.CheckTtem(t, items[5], 21, 14)
-			utils.CheckTtem(t, items[6], 51, 9)
-			utils.CheckTtem(t, items[7], 52, 4)
+			utils.CheckTtem(t, items[6], 50, 9)
+			utils.CheckTtem(t, items[7], 50, 4)
 			utils.CheckTtem(t, items[8], 4, 2)
 		}
 		if day == 2 {
@@ -200,8 +200,8 @@ func Test_Fixture(t *testing.T) {
 			utils.CheckTtem(t, items[3], 80, 0)
 			utils.CheckTtem(t, items[4], 80, -1)
 			utils.CheckTtem(t, items[5], 22, 13)
-			utils.CheckTtem(t, items[6], 53, 8)
-			utils.CheckTtem(t, items[7], 55, 3)
+			utils.CheckTtem(t, items[6], 50, 8)
+			utils.CheckTtem(t, items[7], 50, 3)
 			utils.CheckTtem(t, items[8], 2, 1)
 		}
 		if day == 3 {
@@ -211,8 +211,8 @@ func Test_Fixture(t *testing.T) {
 			utils.CheckTtem(t, items[3], 80, 0)
 			utils.CheckTtem(t, items[4], 80, -1)
 			utils.CheckTtem(t, items[5], 23, 12)
-			utils.CheckTtem(t, items[6], 55, 7)
-			utils.CheckTtem(t, items[7], 58, 2)
+			utils.CheckTtem(t, items[6], 50, 7)
+			utils.CheckTtem(t, items[7], 50, 2)
 			utils.CheckTtem(t, items[8], 0, 0)
 		}
 		gildedrose.UpdateQuality(items)

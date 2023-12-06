@@ -12,8 +12,11 @@ func (item *Item) decreaseQualityBy(decreaseValue int) {
 }
 
 func (item *Item) increaseQualityBy(increaseValue int) {
-	if item.Quality < MAX_QUALITY {
+	if (item.Quality + increaseValue) <= MAX_QUALITY {
 		item.Quality = item.Quality + increaseValue
+	} else {
+		increaseValue = MAX_QUALITY - item.Quality
+		item.Quality += increaseValue
 	}
 }
 
@@ -71,10 +74,10 @@ func handleQualityForBackStagePass(item *Item) {
 	case item.SellIn < 0:
 		item.Quality = 0
 	case item.SellIn <= 5:
-		item.Quality += 3
+		item.increaseQualityBy(3)
 	case item.SellIn <= 10:
-		item.Quality += 2
+		item.increaseQualityBy(2)
 	default:
-		item.Quality += 1
+		item.increaseQualityBy(1)
 	}
 }
