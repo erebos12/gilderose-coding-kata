@@ -1,6 +1,7 @@
 package gildedrose_test
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/emilybache/gildedrose-refactoring-kata/gildedrose"
@@ -79,11 +80,15 @@ func Test_Backstage_With_SellIn_Smaller_Equal_Than_10(t *testing.T) {
 	// given
 	var items = []*gildedrose.Item{
 		{Name: "Backstage passes to a TAFKAL80ETC concert", SellIn: 9, Quality: 3},
+		{Name: "Backstage passes to a TAFKAL80ETC concert", SellIn: 8, Quality: 5},
+		{Name: "Backstage passes to a TAFKAL80ETC concert", SellIn: 7, Quality: 9},
 	}
 	// when
 	gildedrose.UpdateQuality(items)
 	// then
 	utils.CheckTtem(t, items[0], 5, 8)
+	utils.CheckTtem(t, items[1], 7, 7)
+	utils.CheckTtem(t, items[2], 11, 6)
 }
 
 func Test_Backstage_With_SellIn_Smaller_Equal_Than_5(t *testing.T) {
@@ -161,4 +166,23 @@ func Test_Quality_Can_Never_Be_Less_Then_0(t *testing.T) {
 	gildedrose.UpdateQuality(items)
 	// then
 	utils.CheckTtem(t, items[0], 0, 3)
+}
+
+func Test_Fixture(t *testing.T) {
+
+	var items = []*gildedrose.Item{
+		{"Backstage passes to a TAFKAL80ETC concert", 15, 20},
+		{"Backstage passes to a TAFKAL80ETC concert", 10, 49},
+		{"Backstage passes to a TAFKAL80ETC concert", 5, 49},
+	}
+	days := 3
+	for day := 0; day < days; day++ {
+		fmt.Printf("-------- day %d --------\n", day)
+		fmt.Println("Name, SellIn, Quality")
+		for i := 0; i < len(items); i++ {
+			fmt.Println(items[i])
+		}
+		fmt.Println("")
+		gildedrose.UpdateQuality(items)
+	}
 }
