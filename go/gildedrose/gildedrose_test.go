@@ -218,3 +218,36 @@ func Test_Fixture(t *testing.T) {
 		gildedrose.UpdateQuality(items)
 	}
 }
+
+func Test_Increase_Quality_By_Function_01(t *testing.T) {
+	// given
+	var items = []*gildedrose.Item{
+		{Name: "Any item", SellIn: 4, Quality: 48},
+	}
+	// when
+	items[0].IncreaseQualityBy(4)
+	// then
+	utils.CheckTtem(t, items[0], 50, 4)
+}
+
+func Test_Increase_Quality_By_Function_02(t *testing.T) {
+	// given
+	var items = []*gildedrose.Item{
+		{Name: "Any item", SellIn: 6, Quality: 48},
+	}
+	// when
+	items[0].IncreaseQualityBy(2)
+	// then
+	utils.CheckTtem(t, items[0], 50, 6)
+}
+
+func Test_Increase_Quality_By_Function_03(t *testing.T) {
+	// given
+	var items = []*gildedrose.Item{
+		{Name: "Any item", SellIn: 17, Quality: 50},
+	}
+	// when
+	items[0].IncreaseQualityBy(4)
+	// then
+	utils.CheckTtem(t, items[0], 50, 17)
+}
