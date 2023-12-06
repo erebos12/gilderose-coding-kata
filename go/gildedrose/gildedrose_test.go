@@ -177,12 +177,23 @@ func Test_Fixture(t *testing.T) {
 	}
 	days := 4
 	for day := 0; day < days; day++ {
-		fmt.Printf("-------- day %d --------\n", day)
-		fmt.Println("Name, SellIn, Quality")
-		for i := 0; i < len(items); i++ {
-			fmt.Println(items[i])
+		if day == 1 {
+			utils.CheckTtem(t, items[0], 21, 14)
+			utils.CheckTtem(t, items[1], 51, 9)
+			utils.CheckTtem(t, items[2], 52, 4)
+		}
+		if day == 2 {
+			utils.CheckTtem(t, items[0], 22, 13)
+			utils.CheckTtem(t, items[1], 53, 8)
+			utils.CheckTtem(t, items[2], 55, 3)
+		}
+		if day == 3 {
+			utils.CheckTtem(t, items[0], 23, 12)
+			utils.CheckTtem(t, items[1], 55, 7)
+			utils.CheckTtem(t, items[2], 58, 2)
 		}
 		fmt.Println("")
 		gildedrose.UpdateQuality(items)
+
 	}
 }
