@@ -11,7 +11,7 @@ func (item *Item) decreaseQualityBy(decreaseValue int) {
 	}
 }
 
-func (item *Item) increseQualityBy(increaseValue int) {
+func (item *Item) increaseQualityBy(increaseValue int) {
 	if item.Quality < MAX_QUALITY {
 		item.Quality = item.Quality + increaseValue
 	}
@@ -41,7 +41,7 @@ func UpdateQuality(items []*Item) {
 				handleQualityForBackStagePass(item)
 			} else {
 				if item.Name != SULFURAS {
-					item.increseQualityBy(1)
+					item.increaseQualityBy(1)
 				}
 			}
 		}
