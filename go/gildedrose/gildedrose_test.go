@@ -4,7 +4,6 @@ import (
 	"testing"
 
 	"github.com/emilybache/gildedrose-refactoring-kata/gildedrose"
-	"github.com/emilybache/gildedrose-refactoring-kata/gildedrose/utils"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -93,7 +92,10 @@ func Test_Backstage_With_Normal_SellIn(t *testing.T) {
 	// when
 	gildedrose.UpdateQuality(items)
 	// then
-	utils.CheckTtem(t, items[0], 21, 14)
+	expectedQuality := 21
+	assert.Equal(t, expectedQuality, items[0].Quality)
+	expectedSellIn := 14
+	assert.Equal(t, expectedSellIn, items[0].SellIn)
 }
 
 func Test_Backstage_With_SellIn_Smaller_Equal_Than_10(t *testing.T) {
