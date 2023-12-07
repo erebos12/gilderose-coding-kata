@@ -60,8 +60,6 @@ func handleExpiredItem(item *Item) {
 
 func handleQualityForBackStagePass(item *Item) {
 	switch {
-	case item.SellIn < 0:
-		item.Quality = 0
 	case item.SellIn <= 5:
 		item.IncreaseQualityBy(3)
 	case item.SellIn <= 10:
