@@ -6,14 +6,16 @@ type Item struct {
 }
 
 func (item *Item) DecreaseQualityBy(decreaseValue int) {
-	if item.Quality > 0 {
-		item.Quality = item.Quality - decreaseValue
+	if decreaseValue > item.Quality {
+		item.Quality = 0
+	} else {
+		item.Quality -= decreaseValue
 	}
 }
 
 func (item *Item) IncreaseQualityBy(increaseValue int) {
 	if (item.Quality + increaseValue) <= MAX_QUALITY {
-		item.Quality = item.Quality + increaseValue
+		item.Quality += increaseValue
 	} else {
 		increaseValue = MAX_QUALITY - item.Quality
 		item.Quality += increaseValue
