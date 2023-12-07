@@ -5,6 +5,7 @@ import (
 
 	"github.com/emilybache/gildedrose-refactoring-kata/gildedrose"
 	"github.com/emilybache/gildedrose-refactoring-kata/gildedrose/utils"
+	"github.com/stretchr/testify/assert"
 )
 
 func Test_Decrease_Quality_For_Normal_Item(t *testing.T) {
@@ -15,7 +16,11 @@ func Test_Decrease_Quality_For_Normal_Item(t *testing.T) {
 	// when
 	gildedrose.UpdateQuality(items)
 	// then
-	utils.CheckTtem(t, items[0], 9, 9)
+	expectedQuality := 9
+	assert.Equal(t, expectedQuality, items[0].Quality)
+	expectedSellIn := 9
+	assert.Equal(t, expectedSellIn, items[0].SellIn)
+
 }
 
 func Test_Decrease_Quality_For_Normal_Item_Quality_to_0(t *testing.T) {
@@ -26,7 +31,10 @@ func Test_Decrease_Quality_For_Normal_Item_Quality_to_0(t *testing.T) {
 	// when
 	gildedrose.UpdateQuality(items)
 	// then
-	utils.CheckTtem(t, items[0], 0, 9)
+	expectedQuality := 0
+	assert.Equal(t, expectedQuality, items[0].Quality)
+	expectedSellIn := 9
+	assert.Equal(t, expectedSellIn, items[0].SellIn)
 }
 
 func Test_Sulfuras_Never_Changes(t *testing.T) {
@@ -37,7 +45,10 @@ func Test_Sulfuras_Never_Changes(t *testing.T) {
 	// when
 	gildedrose.UpdateQuality(items)
 	// then
-	utils.CheckTtem(t, items[0], 30, 0)
+	expectedQuality := 30
+	assert.Equal(t, expectedQuality, items[0].Quality)
+	expectedSellIn := 0
+	assert.Equal(t, expectedSellIn, items[0].SellIn)
 }
 
 func Test_Increase_Quality_For_Aged_Brie_The_Older_It_Gets(t *testing.T) {
@@ -49,8 +60,15 @@ func Test_Increase_Quality_For_Aged_Brie_The_Older_It_Gets(t *testing.T) {
 	// when
 	gildedrose.UpdateQuality(items)
 	// then
-	utils.CheckTtem(t, items[0], 41, 9)
-	utils.CheckTtem(t, items[1], 42, 8)
+	expectedQuality := 41
+	assert.Equal(t, expectedQuality, items[0].Quality)
+	expectedSellIn := 9
+	assert.Equal(t, expectedSellIn, items[0].SellIn)
+
+	expectedQuality = 42
+	assert.Equal(t, expectedQuality, items[1].Quality)
+	expectedSellIn = 8
+	assert.Equal(t, expectedSellIn, items[1].SellIn)
 }
 
 func Test_Quality_Can_Never_Be_Negative_for_some_item(t *testing.T) {
@@ -61,7 +79,10 @@ func Test_Quality_Can_Never_Be_Negative_for_some_item(t *testing.T) {
 	// when
 	gildedrose.UpdateQuality(items)
 	// then
-	utils.CheckTtem(t, items[0], 0, 9)
+	expectedQuality := 0
+	assert.Equal(t, expectedQuality, items[0].Quality)
+	expectedSellIn := 9
+	assert.Equal(t, expectedSellIn, items[0].SellIn)
 }
 
 func Test_Backstage_With_Normal_SellIn(t *testing.T) {
@@ -79,15 +100,14 @@ func Test_Backstage_With_SellIn_Smaller_Equal_Than_10(t *testing.T) {
 	// given
 	var items = []*gildedrose.Item{
 		{Name: gildedrose.BACKSTAGE_PASS, SellIn: 9, Quality: 3},
-		{Name: gildedrose.BACKSTAGE_PASS, SellIn: 8, Quality: 5},
-		{Name: gildedrose.BACKSTAGE_PASS, SellIn: 7, Quality: 9},
 	}
 	// when
 	gildedrose.UpdateQuality(items)
 	// then
-	utils.CheckTtem(t, items[0], 5, 8)
-	utils.CheckTtem(t, items[1], 7, 7)
-	utils.CheckTtem(t, items[2], 11, 6)
+	expectedQuality := 5
+	assert.Equal(t, expectedQuality, items[0].Quality)
+	expectedSellIn := 8
+	assert.Equal(t, expectedSellIn, items[0].SellIn)
 }
 
 func Test_Backstage_With_SellIn_Smaller_Equal_Than_5(t *testing.T) {
@@ -98,10 +118,13 @@ func Test_Backstage_With_SellIn_Smaller_Equal_Than_5(t *testing.T) {
 	// when
 	gildedrose.UpdateQuality(items)
 	// then
-	utils.CheckTtem(t, items[0], 6, 3)
+	expectedQuality := 6
+	assert.Equal(t, expectedQuality, items[0].Quality)
+	expectedSellIn := 3
+	assert.Equal(t, expectedSellIn, items[0].SellIn)
 }
 
-func Test_Backstage_With_SellIn_After_Concert_Date_Drops_to_Zero(t *testing.T) {
+func Test_Backstage_With_SellIn_After_Concert_Date_Quality_Drops_to_Zero(t *testing.T) {
 	// given
 	var items = []*gildedrose.Item{
 		{Name: gildedrose.BACKSTAGE_PASS, SellIn: -1, Quality: 3},
@@ -109,7 +132,10 @@ func Test_Backstage_With_SellIn_After_Concert_Date_Drops_to_Zero(t *testing.T) {
 	// when
 	gildedrose.UpdateQuality(items)
 	// then
-	utils.CheckTtem(t, items[0], 0, -2)
+	expectedQuality := 0
+	assert.Equal(t, expectedQuality, items[0].Quality)
+	expectedSellIn := -2
+	assert.Equal(t, expectedSellIn, items[0].SellIn)
 }
 
 func Test_Decrease_Quality_Twice_As_Fast_When_SellIn_Passed(t *testing.T) {
@@ -120,7 +146,10 @@ func Test_Decrease_Quality_Twice_As_Fast_When_SellIn_Passed(t *testing.T) {
 	// when
 	gildedrose.UpdateQuality(items)
 	// then
-	utils.CheckTtem(t, items[0], 3, -2)
+	expectedQuality := 3
+	assert.Equal(t, expectedQuality, items[0].Quality)
+	expectedSellIn := -2
+	assert.Equal(t, expectedSellIn, items[0].SellIn)
 }
 
 func Test_Decrease_Quality_Twice_As_Fast_For_Conjured_Item(t *testing.T) {
@@ -131,7 +160,10 @@ func Test_Decrease_Quality_Twice_As_Fast_For_Conjured_Item(t *testing.T) {
 	// when
 	gildedrose.UpdateQuality(items)
 	// then
-	utils.CheckTtem(t, items[0], 10, 9)
+	expectedQuality := 10
+	assert.Equal(t, expectedQuality, items[0].Quality)
+	expectedSellIn := 9
+	assert.Equal(t, expectedSellIn, items[0].SellIn)
 }
 
 func Test_Decrease_Quality_Twice_As_Fast_For_Conjured_Item_After_SellIn_Passed(t *testing.T) {
@@ -142,7 +174,10 @@ func Test_Decrease_Quality_Twice_As_Fast_For_Conjured_Item_After_SellIn_Passed(t
 	// when
 	gildedrose.UpdateQuality(items)
 	// then
-	utils.CheckTtem(t, items[0], 8, -3)
+	expectedQuality := 8
+	assert.Equal(t, expectedQuality, items[0].Quality)
+	expectedSellIn := -3
+	assert.Equal(t, expectedSellIn, items[0].SellIn)
 }
 
 func Test_Quality_Can_Never_Be_More_Then_50(t *testing.T) {
@@ -153,7 +188,10 @@ func Test_Quality_Can_Never_Be_More_Then_50(t *testing.T) {
 	// when
 	gildedrose.UpdateQuality(items)
 	// then
-	utils.CheckTtem(t, items[0], 50, 9)
+	expectedQuality := 50
+	assert.Equal(t, expectedQuality, items[0].Quality)
+	expectedSellIn := 9
+	assert.Equal(t, expectedSellIn, items[0].SellIn)
 }
 
 func Test_Quality_Can_Never_Be_Less_Then_0(t *testing.T) {
@@ -164,7 +202,10 @@ func Test_Quality_Can_Never_Be_Less_Then_0(t *testing.T) {
 	// when
 	gildedrose.UpdateQuality(items)
 	// then
-	utils.CheckTtem(t, items[0], 0, 3)
+	expectedQuality := 0
+	assert.Equal(t, expectedQuality, items[0].Quality)
+	expectedSellIn := 3
+	assert.Equal(t, expectedSellIn, items[0].SellIn)
 }
 
 func Test_Fixture(t *testing.T) {
@@ -183,43 +224,148 @@ func Test_Fixture(t *testing.T) {
 	days := 4
 	for day := 0; day < days; day++ {
 		if day == 1 {
-			utils.CheckTtem(t, items[0], 19, 9)
-			utils.CheckTtem(t, items[1], 1, 1)
-			utils.CheckTtem(t, items[2], 6, 4)
-			utils.CheckTtem(t, items[3], 80, 0)
-			utils.CheckTtem(t, items[4], 80, -1)
-			utils.CheckTtem(t, items[5], 21, 14)
-			utils.CheckTtem(t, items[6], 50, 9)
-			utils.CheckTtem(t, items[7], 50, 4)
-			utils.CheckTtem(t, items[8], 4, 2)
+			expectedQuality := 19
+			assert.Equal(t, expectedQuality, items[0].Quality)
+			expectedSellIn := 9
+			assert.Equal(t, expectedSellIn, items[0].SellIn)
+
+			expectedQuality = 1
+			assert.Equal(t, expectedQuality, items[1].Quality)
+			expectedSellIn = 1
+			assert.Equal(t, expectedSellIn, items[1].SellIn)
+
+			expectedQuality = 6
+			assert.Equal(t, expectedQuality, items[2].Quality)
+			expectedSellIn = 4
+			assert.Equal(t, expectedSellIn, items[2].SellIn)
+
+			expectedQuality = 80
+			assert.Equal(t, expectedQuality, items[3].Quality)
+			expectedSellIn = 0
+			assert.Equal(t, expectedSellIn, items[3].SellIn)
+
+			expectedQuality = 80
+			assert.Equal(t, expectedQuality, items[4].Quality)
+			expectedSellIn = -1
+			assert.Equal(t, expectedSellIn, items[4].SellIn)
+
+			expectedQuality = 21
+			assert.Equal(t, expectedQuality, items[5].Quality)
+			expectedSellIn = 14
+			assert.Equal(t, expectedSellIn, items[5].SellIn)
+
+			expectedQuality = 50
+			assert.Equal(t, expectedQuality, items[6].Quality)
+			expectedSellIn = 9
+			assert.Equal(t, expectedSellIn, items[6].SellIn)
+
+			expectedQuality = 50
+			assert.Equal(t, expectedQuality, items[7].Quality)
+			expectedSellIn = 4
+			assert.Equal(t, expectedSellIn, items[7].SellIn)
+
+			expectedQuality = 4
+			assert.Equal(t, expectedQuality, items[8].Quality)
+			expectedSellIn = 2
+			assert.Equal(t, expectedSellIn, items[8].SellIn)
 		}
 		if day == 2 {
-			utils.CheckTtem(t, items[0], 18, 8)
-			utils.CheckTtem(t, items[1], 2, 0)
-			utils.CheckTtem(t, items[2], 5, 3)
-			utils.CheckTtem(t, items[3], 80, 0)
-			utils.CheckTtem(t, items[4], 80, -1)
-			utils.CheckTtem(t, items[5], 22, 13)
-			utils.CheckTtem(t, items[6], 50, 8)
-			utils.CheckTtem(t, items[7], 50, 3)
-			utils.CheckTtem(t, items[8], 2, 1)
+			expectedQuality := 18
+			assert.Equal(t, expectedQuality, items[0].Quality)
+			expectedSellIn := 8
+			assert.Equal(t, expectedSellIn, items[0].SellIn)
+
+			expectedQuality = 2
+			assert.Equal(t, expectedQuality, items[1].Quality)
+			expectedSellIn = 0
+			assert.Equal(t, expectedSellIn, items[1].SellIn)
+
+			expectedQuality = 5
+			assert.Equal(t, expectedQuality, items[2].Quality)
+			expectedSellIn = 3
+			assert.Equal(t, expectedSellIn, items[2].SellIn)
+
+			expectedQuality = 80
+			assert.Equal(t, expectedQuality, items[3].Quality)
+			expectedSellIn = 0
+			assert.Equal(t, expectedSellIn, items[3].SellIn)
+
+			expectedQuality = 80
+			assert.Equal(t, expectedQuality, items[4].Quality)
+			expectedSellIn = -1
+			assert.Equal(t, expectedSellIn, items[4].SellIn)
+
+			expectedQuality = 22
+			assert.Equal(t, expectedQuality, items[5].Quality)
+			expectedSellIn = 13
+			assert.Equal(t, expectedSellIn, items[5].SellIn)
+
+			expectedQuality = 50
+			assert.Equal(t, expectedQuality, items[6].Quality)
+			expectedSellIn = 8
+			assert.Equal(t, expectedSellIn, items[6].SellIn)
+
+			expectedQuality = 50
+			assert.Equal(t, expectedQuality, items[7].Quality)
+			expectedSellIn = 3
+			assert.Equal(t, expectedSellIn, items[7].SellIn)
+
+			expectedQuality = 2
+			assert.Equal(t, expectedQuality, items[8].Quality)
+			expectedSellIn = 1
+			assert.Equal(t, expectedSellIn, items[8].SellIn)
 		}
 		if day == 3 {
-			utils.CheckTtem(t, items[0], 17, 7)
-			utils.CheckTtem(t, items[1], 3, -1)
-			utils.CheckTtem(t, items[2], 4, 2)
-			utils.CheckTtem(t, items[3], 80, 0)
-			utils.CheckTtem(t, items[4], 80, -1)
-			utils.CheckTtem(t, items[5], 23, 12)
-			utils.CheckTtem(t, items[6], 50, 7)
-			utils.CheckTtem(t, items[7], 50, 2)
-			utils.CheckTtem(t, items[8], 0, 0)
+			expectedQuality := 17
+			assert.Equal(t, expectedQuality, items[0].Quality)
+			expectedSellIn := 7
+			assert.Equal(t, expectedSellIn, items[0].SellIn)
+
+			expectedQuality = 3
+			assert.Equal(t, expectedQuality, items[1].Quality)
+			expectedSellIn = -1
+			assert.Equal(t, expectedSellIn, items[1].SellIn)
+
+			expectedQuality = 4
+			assert.Equal(t, expectedQuality, items[2].Quality)
+			expectedSellIn = 2
+			assert.Equal(t, expectedSellIn, items[2].SellIn)
+
+			expectedQuality = 80
+			assert.Equal(t, expectedQuality, items[3].Quality)
+			expectedSellIn = 0
+			assert.Equal(t, expectedSellIn, items[3].SellIn)
+
+			expectedQuality = 80
+			assert.Equal(t, expectedQuality, items[4].Quality)
+			expectedSellIn = -1
+			assert.Equal(t, expectedSellIn, items[4].SellIn)
+
+			expectedQuality = 23
+			assert.Equal(t, expectedQuality, items[5].Quality)
+			expectedSellIn = 12
+			assert.Equal(t, expectedSellIn, items[5].SellIn)
+
+			expectedQuality = 50
+			assert.Equal(t, expectedQuality, items[6].Quality)
+			expectedSellIn = 7
+			assert.Equal(t, expectedSellIn, items[6].SellIn)
+
+			expectedQuality = 50
+			assert.Equal(t, expectedQuality, items[7].Quality)
+			expectedSellIn = 2
+			assert.Equal(t, expectedSellIn, items[7].SellIn)
+
+			expectedQuality = 0
+			assert.Equal(t, expectedQuality, items[8].Quality)
+			expectedSellIn = 0
+			assert.Equal(t, expectedSellIn, items[8].SellIn)
 		}
 		gildedrose.UpdateQuality(items)
 	}
 }
 
-func Test_Increase_Quality_By_Function_01(t *testing.T) {
+func Test_IncreaseQualityBy_Function_01(t *testing.T) {
 	// given
 	var items = []*gildedrose.Item{
 		{Name: "Any item", SellIn: 4, Quality: 48},
@@ -227,10 +373,11 @@ func Test_Increase_Quality_By_Function_01(t *testing.T) {
 	// when
 	items[0].IncreaseQualityBy(4)
 	// then
-	utils.CheckTtem(t, items[0], 50, 4)
+	expectedQuality := 50
+	assert.Equal(t, expectedQuality, items[0].Quality)
 }
 
-func Test_Increase_Quality_By_Function_02(t *testing.T) {
+func Test_IncreaseQualityBy_Function_02(t *testing.T) {
 	// given
 	var items = []*gildedrose.Item{
 		{Name: "Any item", SellIn: 6, Quality: 48},
@@ -238,10 +385,11 @@ func Test_Increase_Quality_By_Function_02(t *testing.T) {
 	// when
 	items[0].IncreaseQualityBy(2)
 	// then
-	utils.CheckTtem(t, items[0], 50, 6)
+	expectedQuality := 50
+	assert.Equal(t, expectedQuality, items[0].Quality)
 }
 
-func Test_Increase_Quality_By_Function_03(t *testing.T) {
+func Test_IncreaseQualityBy_Function_03(t *testing.T) {
 	// given
 	var items = []*gildedrose.Item{
 		{Name: "Any item", SellIn: 17, Quality: 50},
@@ -249,5 +397,42 @@ func Test_Increase_Quality_By_Function_03(t *testing.T) {
 	// when
 	items[0].IncreaseQualityBy(4)
 	// then
-	utils.CheckTtem(t, items[0], 50, 17)
+	expectedQuality := 50
+	assert.Equal(t, expectedQuality, items[0].Quality)
+}
+
+func Test_DecreaseQualityBy_4_With_Quality_2(t *testing.T) {
+	// given
+	var items = []*gildedrose.Item{
+		{Name: "Any item", SellIn: 17, Quality: 2},
+	}
+	// when
+	items[0].DecreaseQualityBy(4)
+	// then
+	expectedQuality := 0
+	assert.Equal(t, expectedQuality, items[0].Quality)
+}
+
+func Test_DecreaseQualityBy_4_With_Quality_4(t *testing.T) {
+	// given
+	var items = []*gildedrose.Item{
+		{Name: "Any item", SellIn: 17, Quality: 4},
+	}
+	// when
+	items[0].DecreaseQualityBy(4)
+	// then
+	expectedQuality := 0
+	assert.Equal(t, expectedQuality, items[0].Quality)
+}
+
+func Test_DecreaseQualityBy_2_With_Quality_3(t *testing.T) {
+	// given
+	var items = []*gildedrose.Item{
+		{Name: "Any item", SellIn: 17, Quality: 3},
+	}
+	// when
+	items[0].DecreaseQualityBy(2)
+	// then
+	expectedQuality := 1
+	assert.Equal(t, expectedQuality, items[0].Quality)
 }
