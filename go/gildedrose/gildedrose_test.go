@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func Test_Decrease_Quality_For_Normal_Item(t *testing.T) {
+func TestNormalItemQualityDecrease(t *testing.T) {
 	// given
 	var items = []*gildedrose.Item{
 		{Name: "foo", SellIn: 10, Quality: 10},
@@ -22,7 +22,7 @@ func Test_Decrease_Quality_For_Normal_Item(t *testing.T) {
 
 }
 
-func Test_Decrease_Quality_For_Normal_Item_Quality_to_0(t *testing.T) {
+func TestNormalItemReachesZeroQuality(t *testing.T) {
 	// given
 	var items = []*gildedrose.Item{
 		{Name: "foo", SellIn: 10, Quality: 1},
@@ -36,7 +36,7 @@ func Test_Decrease_Quality_For_Normal_Item_Quality_to_0(t *testing.T) {
 	assert.Equal(t, expectedSellIn, items[0].SellIn)
 }
 
-func Test_Sulfuras_Never_Changes(t *testing.T) {
+func TestSulfurasStaysLegendary(t *testing.T) {
 	// given
 	var items = []*gildedrose.Item{
 		{Name: gildedrose.SULFURAS, SellIn: 0, Quality: 30},
@@ -50,7 +50,7 @@ func Test_Sulfuras_Never_Changes(t *testing.T) {
 	assert.Equal(t, expectedSellIn, items[0].SellIn)
 }
 
-func Test_Increase_Quality_For_Aged_Brie_The_Older_It_Gets(t *testing.T) {
+func TestAgedBrieGetsBetterWithAge(t *testing.T) {
 	// given
 	var items = []*gildedrose.Item{
 		{Name: gildedrose.AGED_BRIE, SellIn: 10, Quality: 40},
@@ -70,7 +70,7 @@ func Test_Increase_Quality_For_Aged_Brie_The_Older_It_Gets(t *testing.T) {
 	assert.Equal(t, expectedSellIn, items[1].SellIn)
 }
 
-func Test_Quality_Can_Never_Be_Negative_for_some_item(t *testing.T) {
+func TestQualityNeverDropsBelowZero(t *testing.T) {
 	// given
 	var items = []*gildedrose.Item{
 		{Name: "Some item", SellIn: 10, Quality: 0},
@@ -84,7 +84,7 @@ func Test_Quality_Can_Never_Be_Negative_for_some_item(t *testing.T) {
 	assert.Equal(t, expectedSellIn, items[0].SellIn)
 }
 
-func Test_Backstage_With_Normal_SellIn(t *testing.T) {
+func TestBackstageQualityWithNormalSellIn(t *testing.T) {
 	// given
 	var items = []*gildedrose.Item{
 		{Name: gildedrose.BACKSTAGE_PASS, SellIn: 15, Quality: 20},
@@ -98,7 +98,7 @@ func Test_Backstage_With_Normal_SellIn(t *testing.T) {
 	assert.Equal(t, expectedSellIn, items[0].SellIn)
 }
 
-func Test_Backstage_With_SellIn_Smaller_Equal_Than_10(t *testing.T) {
+func TestBackstagePassQualityWithSellInLessThan10Days(t *testing.T) {
 	// given
 	var items = []*gildedrose.Item{
 		{Name: gildedrose.BACKSTAGE_PASS, SellIn: 9, Quality: 3},
@@ -112,7 +112,7 @@ func Test_Backstage_With_SellIn_Smaller_Equal_Than_10(t *testing.T) {
 	assert.Equal(t, expectedSellIn, items[0].SellIn)
 }
 
-func Test_Backstage_With_SellIn_Smaller_Equal_Than_5(t *testing.T) {
+func TestBackstagePassQualityWithSellInLessThan5Days(t *testing.T) {
 	// given
 	var items = []*gildedrose.Item{
 		{Name: gildedrose.BACKSTAGE_PASS, SellIn: 4, Quality: 3},
@@ -126,7 +126,7 @@ func Test_Backstage_With_SellIn_Smaller_Equal_Than_5(t *testing.T) {
 	assert.Equal(t, expectedSellIn, items[0].SellIn)
 }
 
-func Test_Backstage_With_SellIn_After_Concert_Date_Quality_Drops_to_Zero(t *testing.T) {
+func TestBackstagePassQualityDropsToZeroAfterConcert(t *testing.T) {
 	// given
 	var items = []*gildedrose.Item{
 		{Name: gildedrose.BACKSTAGE_PASS, SellIn: -1, Quality: 3},
@@ -140,7 +140,7 @@ func Test_Backstage_With_SellIn_After_Concert_Date_Quality_Drops_to_Zero(t *test
 	assert.Equal(t, expectedSellIn, items[0].SellIn)
 }
 
-func Test_Decrease_Quality_Twice_As_Fast_When_SellIn_Passed(t *testing.T) {
+func TestExpiredItemReducesQualityTwiceAsFast(t *testing.T) {
 	// given
 	var items = []*gildedrose.Item{
 		{Name: "Some item", SellIn: -1, Quality: 5},
@@ -154,7 +154,7 @@ func Test_Decrease_Quality_Twice_As_Fast_When_SellIn_Passed(t *testing.T) {
 	assert.Equal(t, expectedSellIn, items[0].SellIn)
 }
 
-func Test_Decrease_Quality_Twice_As_Fast_For_Conjured_Item(t *testing.T) {
+func TestDecreaseQualityTwiceAsFastForConjuredItem(t *testing.T) {
 	// given
 	var items = []*gildedrose.Item{
 		{Name: gildedrose.CONJURED, SellIn: 10, Quality: 12},
@@ -168,7 +168,7 @@ func Test_Decrease_Quality_Twice_As_Fast_For_Conjured_Item(t *testing.T) {
 	assert.Equal(t, expectedSellIn, items[0].SellIn)
 }
 
-func Test_Decrease_Quality_Twice_As_Fast_For_Conjured_Item_After_SellIn_Passed(t *testing.T) {
+func TestQualityReductionDoublesForConjuredItemAfterSellIn(t *testing.T) {
 	// given
 	var items = []*gildedrose.Item{
 		{Name: gildedrose.CONJURED, SellIn: -2, Quality: 12},
@@ -182,7 +182,7 @@ func Test_Decrease_Quality_Twice_As_Fast_For_Conjured_Item_After_SellIn_Passed(t
 	assert.Equal(t, expectedSellIn, items[0].SellIn)
 }
 
-func Test_Quality_Can_Never_Be_More_Then_50(t *testing.T) {
+func TestQualityNeverExceedsFifty(t *testing.T) {
 	// given
 	var items = []*gildedrose.Item{
 		{Name: gildedrose.AGED_BRIE, SellIn: 10, Quality: 50},
@@ -193,20 +193,6 @@ func Test_Quality_Can_Never_Be_More_Then_50(t *testing.T) {
 	expectedQuality := 50
 	assert.Equal(t, expectedQuality, items[0].Quality)
 	expectedSellIn := 9
-	assert.Equal(t, expectedSellIn, items[0].SellIn)
-}
-
-func Test_Quality_Can_Never_Be_Less_Then_0(t *testing.T) {
-	// given
-	var items = []*gildedrose.Item{
-		{Name: "Any item", SellIn: 4, Quality: 0},
-	}
-	// when
-	gildedrose.UpdateQuality(items)
-	// then
-	expectedQuality := 0
-	assert.Equal(t, expectedQuality, items[0].Quality)
-	expectedSellIn := 3
 	assert.Equal(t, expectedSellIn, items[0].SellIn)
 }
 

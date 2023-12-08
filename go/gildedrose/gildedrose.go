@@ -1,5 +1,9 @@
 package gildedrose
 
+import (
+	"github.com/emilybache/gildedrose-refactoring-kata/gildedrose/utils"
+)
+
 type Item struct {
 	Name            string
 	SellIn, Quality int
@@ -15,6 +19,9 @@ const (
 
 var EXCEPTIONAL_ITEMS = []string{BACKSTAGE_PASS, AGED_BRIE, SULFURAS}
 
+// UpdateQuality iterates through the given slice of Items, decrementing
+// SellIn and updating Quality according to item type rules. It handles
+// expired items by calling handleExpiredItem.
 func UpdateQuality(items []*Item) {
 	for _, item := range items {
 		if item.Name != SULFURAS {
@@ -27,8 +34,11 @@ func UpdateQuality(items []*Item) {
 	}
 }
 
+// updateItemQuality updates the quality of the given item based on its properties.
+// It handles increasing or decreasing quality for exceptional items like Aged Brie and Backstage Passes,
+// as well as decreasing quality for normal items and Conjured items.
 func updateItemQuality(item *Item) {
-	if containsString(EXCEPTIONAL_ITEMS, item.Name) {
+	if utils.ContainsString(EXCEPTIONAL_ITEMS, item.Name) {
 		switch item.Name {
 		case BACKSTAGE_PASS:
 			handleQualityForBackStagePass(item)
@@ -46,8 +56,11 @@ func updateItemQuality(item *Item) {
 	}
 }
 
+// handleExpiredItem handles updating Quality for items with expired SellIn.
+// It decreases Quality for normal items and Conjured items.
+// It sets Quality to 0 for Backstage Passes once SellIn is negative.
 func handleExpiredItem(item *Item) {
-	if !containsString(EXCEPTIONAL_ITEMS, item.Name) {
+	if !utils.ContainsString(EXCEPTIONAL_ITEMS, item.Name) {
 		decreaseValue := 1
 		if item.Name == CONJURED {
 			decreaseValue = 2
@@ -58,6 +71,10 @@ func handleExpiredItem(item *Item) {
 	}
 }
 
+// handleQualityForBackStagePass increases the Quality of a Backstage Pass
+// based on its SellIn value. The Quality is increased by 3 if SellIn is
+// less than or equal to 5, by 2 if SellIn is less than or equal to 10,
+// and by 1 otherwise.
 func handleQualityForBackStagePass(item *Item) {
 	switch {
 	case item.SellIn <= 5:
@@ -69,6 +86,8 @@ func handleQualityForBackStagePass(item *Item) {
 	}
 }
 
+// DecreaseQualityBy decreases the Quality of the given Item by the given
+// decreaseValue, to a minimum of 0.
 func (item *Item) DecreaseQualityBy(decreaseValue int) {
 	if decreaseValue > item.Quality {
 		item.Quality = 0
@@ -77,6 +96,8 @@ func (item *Item) DecreaseQualityBy(decreaseValue int) {
 	}
 }
 
+// IncreaseQualityBy increases the Quality of the given Item by the given
+// increaseValue, up to a maximum of MAX_QUALITY.
 func (item *Item) IncreaseQualityBy(increaseValue int) {
 	if (item.Quality + increaseValue) <= MAX_QUALITY {
 		item.Quality += increaseValue
@@ -84,13 +105,4 @@ func (item *Item) IncreaseQualityBy(increaseValue int) {
 		increaseValue = MAX_QUALITY - item.Quality
 		item.Quality += increaseValue
 	}
-}
-
-func containsString(slice []string, str string) bool {
-	for _, item := range slice {
-		if item == str {
-			return true
-		}
-	}
-	return false
 }
