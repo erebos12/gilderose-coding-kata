@@ -11,6 +11,7 @@ type Item struct {
 
 const (
 	MAX_QUALITY    = 50
+	MIN_QUALITY    = 0
 	SULFURAS       = "Sulfuras, Hand of Ragnaros"
 	AGED_BRIE      = "Aged Brie"
 	BACKSTAGE_PASS = "Backstage passes to a TAFKAL80ETC concert"
@@ -19,9 +20,10 @@ const (
 
 var EXCEPTIONAL_ITEMS = []string{BACKSTAGE_PASS, AGED_BRIE, SULFURAS}
 
-// UpdateQuality iterates through the given slice of Items, decrementing
-// SellIn and updating Quality according to item type rules. It handles
-// expired items by calling handleExpiredItem.
+// UpdateQuality iterates through the given list of items, decrementing
+// SellIn and updating Quality for each item. It handles special cases
+// for expired items and items like Sulfuras. This function encapsulates
+// the core business logic for decrementing inventory.
 func UpdateQuality(items []*Item) {
 	for _, item := range items {
 		if item.Name != SULFURAS {
@@ -56,9 +58,9 @@ func updateItemQuality(item *Item) {
 	}
 }
 
-// handleExpiredItem handles updating Quality for items with expired SellIn.
-// It decreases Quality for normal items and Conjured items.
-// It sets Quality to 0 for Backstage Passes once SellIn is negative.
+// handleExpiredItem handles updating the Quality of items whose SellIn has
+// expired (gone below 0). It decreases Quality for normal items, and sets
+// Quality to 0 for Backstage Passes. It does not modify Sulfuras items.
 func handleExpiredItem(item *Item) {
 	if !utils.ContainsString(EXCEPTIONAL_ITEMS, item.Name) {
 		decreaseValue := 1
@@ -67,7 +69,7 @@ func handleExpiredItem(item *Item) {
 		}
 		item.DecreaseQualityBy(decreaseValue)
 	} else if item.Name == BACKSTAGE_PASS {
-		item.Quality = 0
+		item.Quality = MIN_QUALITY
 	}
 }
 
@@ -90,7 +92,7 @@ func handleQualityForBackStagePass(item *Item) {
 // decreaseValue, to a minimum of 0.
 func (item *Item) DecreaseQualityBy(decreaseValue int) {
 	if decreaseValue > item.Quality {
-		item.Quality = 0
+		item.Quality = MIN_QUALITY
 	} else {
 		item.Quality -= decreaseValue
 	}
