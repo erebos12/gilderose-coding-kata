@@ -10,8 +10,8 @@ type Item struct {
 }
 
 const (
-	MAX_QUALITY    = 50
 	MIN_QUALITY    = 0
+	MAX_QUALITY    = 50
 	SULFURAS       = "Sulfuras, Hand of Ragnaros"
 	AGED_BRIE      = "Aged Brie"
 	BACKSTAGE_PASS = "Backstage passes to a TAFKAL80ETC concert"
@@ -90,23 +90,22 @@ func handleQualityForBackStagePass(item *Item) {
 	}
 }
 
-// DecreaseQualityBy decreases the Quality of the given Item by the given
-// decreaseValue, to a minimum of 0.
-func (item *Item) decreaseQualityBy(decreaseValue int) {
-	if decreaseValue > item.Quality {
-		item.Quality = MIN_QUALITY
+// IncreaseQualityBy increases the Quality of the item by increaseValue,
+// ensuring that the Quality does not exceed MAX_QUALITY.
+func (item *Item) increaseQualityBy(increaseValue int) {
+	if item.Quality+increaseValue > MAX_QUALITY {
+		item.Quality = MAX_QUALITY
 	} else {
-		item.Quality -= decreaseValue
+		item.Quality += increaseValue
 	}
 }
 
-// IncreaseQualityBy increases the Quality of the given Item by the given
-// increaseValue, up to a maximum of MAX_QUALITY.
-func (item *Item) increaseQualityBy(increaseValue int) {
-	if (item.Quality + increaseValue) <= MAX_QUALITY {
-		item.Quality += increaseValue
+// DecreaseQualityBy decreases the Quality of the item by decreaseValue,
+// ensuring that the Quality does not fall below MIN_QUALITY.
+func (item *Item) decreaseQualityBy(decreaseValue int) {
+	if decreaseValue >= item.Quality {
+		item.Quality = MIN_QUALITY
 	} else {
-		increaseValue = MAX_QUALITY - item.Quality
-		item.Quality += increaseValue
+		item.Quality -= decreaseValue
 	}
 }
