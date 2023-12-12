@@ -1,7 +1,7 @@
 package gildedrose
 
 import (
-	"github.com/emilybache/gildedrose-refactoring-kata/gildedrose/utils"
+	"slices"
 )
 
 type Item struct {
@@ -40,7 +40,7 @@ func UpdateQuality(items []*Item) {
 // It handles increasing or decreasing quality for exceptional items like Aged Brie and Backstage Passes,
 // as well as decreasing quality for normal items and Conjured items.
 func updateItemQuality(item *Item) {
-	if utils.ContainsString(EXCEPTIONAL_ITEMS, item.Name) {
+	if slices.Contains(EXCEPTIONAL_ITEMS, item.Name) {
 		switch item.Name {
 		case BACKSTAGE_PASS:
 			handleQualityForBackStagePass(item)
@@ -62,7 +62,7 @@ func updateItemQuality(item *Item) {
 // expired (gone below 0). It decreases Quality for normal items, and sets
 // Quality to 0 for Backstage Passes. It does not modify Sulfuras items.
 func handleExpiredItem(item *Item) {
-	if !utils.ContainsString(EXCEPTIONAL_ITEMS, item.Name) {
+	if !slices.Contains(EXCEPTIONAL_ITEMS, item.Name) {
 		decreaseValue := 1
 		if item.Name == CONJURED {
 			decreaseValue = 2
