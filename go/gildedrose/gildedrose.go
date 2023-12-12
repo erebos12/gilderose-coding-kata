@@ -46,7 +46,7 @@ func updateItemQuality(item *Item) {
 			handleQualityForBackStagePass(item)
 		default:
 			if item.Name != SULFURAS {
-				item.IncreaseQualityBy(1)
+				item.increaseQualityBy(1)
 			}
 		}
 	} else {
@@ -54,7 +54,7 @@ func updateItemQuality(item *Item) {
 		if item.Name == CONJURED {
 			decreaseValue = 2
 		}
-		item.DecreaseQualityBy(decreaseValue)
+		item.decreaseQualityBy(decreaseValue)
 	}
 }
 
@@ -71,7 +71,7 @@ func handleExpiredItem(item *Item) {
 		if item.Name == CONJURED {
 			decreaseValue = 2
 		}
-		item.DecreaseQualityBy(decreaseValue)
+		item.decreaseQualityBy(decreaseValue)
 	}
 }
 
@@ -82,17 +82,17 @@ func handleExpiredItem(item *Item) {
 func handleQualityForBackStagePass(item *Item) {
 	switch {
 	case item.SellIn <= 5:
-		item.IncreaseQualityBy(3)
+		item.increaseQualityBy(3)
 	case item.SellIn <= 10:
-		item.IncreaseQualityBy(2)
+		item.increaseQualityBy(2)
 	default:
-		item.IncreaseQualityBy(1)
+		item.increaseQualityBy(1)
 	}
 }
 
 // DecreaseQualityBy decreases the Quality of the given Item by the given
 // decreaseValue, to a minimum of 0.
-func (item *Item) DecreaseQualityBy(decreaseValue int) {
+func (item *Item) decreaseQualityBy(decreaseValue int) {
 	if decreaseValue > item.Quality {
 		item.Quality = MIN_QUALITY
 	} else {
@@ -102,7 +102,7 @@ func (item *Item) DecreaseQualityBy(decreaseValue int) {
 
 // IncreaseQualityBy increases the Quality of the given Item by the given
 // increaseValue, up to a maximum of MAX_QUALITY.
-func (item *Item) IncreaseQualityBy(increaseValue int) {
+func (item *Item) increaseQualityBy(increaseValue int) {
 	if (item.Quality + increaseValue) <= MAX_QUALITY {
 		item.Quality += increaseValue
 	} else {
