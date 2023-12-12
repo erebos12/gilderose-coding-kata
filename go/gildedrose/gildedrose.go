@@ -62,14 +62,16 @@ func updateItemQuality(item *Item) {
 // expired (gone below 0). It decreases Quality for normal items, and sets
 // Quality to 0 for Backstage Passes. It does not modify Sulfuras items.
 func handleExpiredItem(item *Item) {
-	if !slices.Contains(EXCEPTIONAL_ITEMS, item.Name) {
+	if slices.Contains(EXCEPTIONAL_ITEMS, item.Name) {
+		if item.Name == BACKSTAGE_PASS {
+			item.Quality = MIN_QUALITY
+		}
+	} else {
 		decreaseValue := 1
 		if item.Name == CONJURED {
 			decreaseValue = 2
 		}
 		item.DecreaseQualityBy(decreaseValue)
-	} else if item.Name == BACKSTAGE_PASS {
-		item.Quality = MIN_QUALITY
 	}
 }
 
